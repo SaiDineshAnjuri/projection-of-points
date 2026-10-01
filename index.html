@@ -273,9 +273,9 @@ function draw(){
   }
 
   if(!pre){
-    const fa=seg(t,[K.p1[1]-.25,K.p1[1]]),ta=seg(t,[K.p2[1]-.25,K.p2[1]]);
-    if(fa>0){dot(FV,4,INK,fa);text('FV',FV,10,-8,{al:fa, it:false})}
-    if(ta>0){dot(TV,4,INK,ta);text('TV',TV,10,16,{al:ta, it:false})}
+    const fvAlpha=seg(t,[K.p1[1]-.25,K.p1[1]]),tvAlpha=seg(t,[K.p2[1]-.25,K.p2[1]]);
+    if(fvAlpha>0){dot(FV,4,INK,fvAlpha);text('FV',FV,10,-8,{al:fvAlpha, it:false})}
+    if(tvAlpha>0){dot(TV,4,INK,tvAlpha);text('TV',TV,10,16,{al:tvAlpha, it:false})}
   }
   const pa=pre?1:fade;
   if(pa>0){dot(P,5.5,PT,pa);text('A',P,-10,-9,{align:'right',col:PT,size:16,al:pa})}
@@ -290,8 +290,8 @@ function captions(){
   const vpT=dy?`${dy} mm ${front?'in front of':'behind'} the VP`:'in the VP';
   const hpT=dz?`${dz} mm ${above?'above':'below'} the HP`:'in the HP';
   const tail=typeof q==='number'?ORD[q-1]+' quadrant':q==='vp'?(above?'edge of the 1st and 2nd quadrants':'edge of the 3rd and 4th quadrants'):(front?'edge of the 1st and 4th quadrants':'edge of the 2nd and 3rd quadrants');
-  const aF=dz?`FV is ${dz} mm ${above?'above':'below'} XY`:'FV lies on XY';
-  const aT=dy?`TV is ${dy} mm ${front?'below':'above'} XY`:'TV lies on XY';
+  const fvText=dz?`FV is ${dz} mm ${above?'above':'below'} XY`:'FV lies on XY';
+  const tvText=dy?`TV is ${dy} mm ${front?'below':'above'} XY`:'TV lies on XY';
   return [
     q==='xy'?'A lies on the XY line, where the VP meets the HP.':`A is ${vpT} and ${hpT}: ${tail}.`,
     'Focusing on the active quadrant...',
@@ -300,7 +300,7 @@ function captions(){
     `${dz?`FV is ${dz} mm${above?'above':'below'} XY on the VP`:'FV lies on XY'}. ${dy?`TV is ${dy} mm${front?'in front of':'behind'} XY on the HP`:'TV lies on XY'}.`,
     'Rotate the HP 90° clockwise about XY. Its front half swings down, the rear half swings up.',
     'View the VP face-on. Both planes now lie flat, with XY level.',
-    `${typeof q==='number'?ORD[q-1]+' quadrant':'Result'}: ${aF}, ${aT}, both on one projector perpendicular to XY.`
+    `${typeof q==='number'?ORD[q-1]+' quadrant':'Result'}: ${fvText}, ${tvText}, both on one projector perpendicular to XY.`
   ];
 }
 let lastCap='';
