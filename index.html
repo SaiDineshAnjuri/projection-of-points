@@ -279,6 +279,20 @@ function draw(){
   }
   const pa=pre?1:fade;
   if(pa>0){dot(P,5.5,PT,pa);text('A',P,-10,-9,{align:'right',col:PT,size:16,al:pa})}
+
+  // --- NEW: Legend Abbreviations placed at the bottom ---
+  ctx.save();
+  ctx.font = `600 13px ${FONT}`;
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'alphabetic';
+  const legendText = "FV = Front View   |   TV = Top View";
+  ctx.lineWidth = 4;
+  ctx.strokeStyle = PAPER; // This creates a white border so lines won't overlap the text
+  ctx.lineJoin = 'round';
+  ctx.strokeText(legendText, cw / 2, ch - 16); 
+  ctx.fillStyle = '#55616A'; // Muted dark grey color
+  ctx.fillText(legendText, cw / 2, ch - 16);
+  ctx.restore();
 }
 
 function quad(){
