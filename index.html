@@ -17,7 +17,9 @@ h1{margin:0;font-size:22px;font-weight:600}
 header p{margin:2px 0 0;color:var(--muted);font-size:14px}
 .stage{position:sticky;top:0;z-index:5;background:var(--desk);padding:0 10px 10px}
 .sheet{background:var(--paper);border:1.5px solid var(--ink)}
+.cv-wrap {position:relative}
 canvas{display:block;width:100%;height:clamp(240px,40vh,380px)}
+.legend {position:absolute;bottom:14px;left:50%;transform:translateX(-50%);background:rgba(246,248,247,0.85);padding:4px 14px;border-radius:20px;font-size:13px;font-weight:600;color:var(--muted);border:1px solid rgba(30,35,39,0.15);box-shadow:0 2px 4px rgba(0,0,0,0.05);pointer-events:none;white-space:nowrap;backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px);}
 .tb{display:grid;grid-template-columns:78px 1fr;border-top:1.5px solid var(--ink)}
 .tb b{padding:8px;border-right:1px solid var(--ink);font-size:13px;font-weight:600;color:var(--muted)}
 .tb p{margin:0;padding:8px 10px;font-size:14px;line-height:1.35;min-height:4.3em}
@@ -55,7 +57,10 @@ button:disabled{opacity:.55;cursor:default}
 
   <section class="stage">
     <div class="sheet">
-      <canvas id="cv" role="img" aria-label="Point A between the vertical and horizontal planes"></canvas>
+      <div class="cv-wrap">
+        <canvas id="cv" role="img" aria-label="Point A between the vertical and horizontal planes"></canvas>
+        <div class="legend">FV = Front View &nbsp;&nbsp;|&nbsp;&nbsp; TV = Top View</div>
+      </div>
       <div class="tb"><b id="step">Ready</b><p id="cap" aria-live="polite"></p></div>
     </div>
   </section>
@@ -187,9 +192,9 @@ function draw(){
   // Phase 2: Zoom
   let z_phase = 0;
   if(t > 0 && t < K.swing[0]){
-    z_phase = ease(pCamZoom); // Stays 0 during rotation, zooms in afterward
+    z_phase = ease(pCamZoom); 
   } else if(t >= K.swing[0]){
-    z_phase = 1 - ease(sw);   // Smoothly zoom out during the final 2D swing
+    z_phase = 1 - ease(sw);   
   }
   
   zoom = 1 + 0.6 * z_phase;
@@ -279,20 +284,6 @@ function draw(){
   }
   const pa=pre?1:fade;
   if(pa>0){dot(P,5.5,PT,pa);text('A',P,-10,-9,{align:'right',col:PT,size:16,al:pa})}
-
-  // --- NEW: Legend Abbreviations placed at the bottom ---
-  ctx.save();
-  ctx.font = `600 13px ${FONT}`;
-  ctx.textAlign = 'center';
-  ctx.textBaseline = 'alphabetic';
-  const legendText = "FV = Front View   |   TV = Top View";
-  ctx.lineWidth = 4;
-  ctx.strokeStyle = PAPER; // This creates a white border so lines won't overlap the text
-  ctx.lineJoin = 'round';
-  ctx.strokeText(legendText, cw / 2, ch - 16); 
-  ctx.fillStyle = '#55616A'; // Muted dark grey color
-  ctx.fillText(legendText, cw / 2, ch - 16);
-  ctx.restore();
 }
 
 function quad(){
